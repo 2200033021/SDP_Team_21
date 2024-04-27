@@ -1,0 +1,42 @@
+{% extends 'core/base.html' %}
+{% block title %}My Cart{% endblock title %}
+{% load static %}
+
+{% block content %}
+
+{% include 'core/header.html' with p=userdata %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            {% if veg %}
+                <img src="{% static myItems.vimg.url %}" alt="vegetable" class="img-fluid">
+            {% else %}
+                <img src="{% static myItems.gimg.url %}" alt="grocery" class="img-fluid">
+            {% endif %}
+        </div>
+        <div class="col-sm-8">
+            {% if veg %}
+                <h1 class="text-dark alert-primary mt-3 mx-1">{{ myItems.vname }}</h1>
+                <h3 class="text-dark alert-info mt-3 mx-1">{{ myItems.vinfo }}</h3>
+                <h3 class="text-dark alert-info mt-3 mx-1">₹ {{ myItems.vprice }} / {{ myItems.vamm }}</h3>
+            {% else %}
+                <h1 class="text-dark alert-primary mt-3 mx-1">{{ myItems.gname }}</h1>
+                <h3 class="text-dark alert-info mt-3 mx-1">{{ myItems.ginfo }}</h3>
+                <h3 class="text-dark alert-info mt-3 mx-1">₹ {{ myItems.gprice }} / {{ myItems.gamm }}</h3>
+            {% endif %}
+
+            {% for item in myItems.platforms.all %}
+                <div>
+                    <p>Platform Name: {{ item.platform.name }}</p>
+                    <p>Price: ₹ {{ item.price }}</p>
+                    <a href="{{ item.link }}" class="btn btn-primary">Buy from {{ item.platform.name }}</a>
+                </div>
+            {% endfor %}
+
+            <a href="/user/confirm/buy/" class="btn btn-primary">Confirm Buy</a>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
